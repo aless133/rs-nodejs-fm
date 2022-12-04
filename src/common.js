@@ -1,6 +1,6 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import fsPromises from 'node:fs/promises';
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import fsPromises from "node:fs/promises";
 
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -13,4 +13,11 @@ export const found = async (path) => {
         ret = false;
     }
     return ret;
-}
+};
+
+export const state = {
+    cwd: "",
+    setCWD(path) {
+        state.cwd = path;
+    },
+};

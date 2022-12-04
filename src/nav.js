@@ -1,7 +1,27 @@
 import fsPromises from "node:fs/promises";
 import { resolve } from "path";
 import * as node_os from "node:os";
-import { state, checkArgvLength } from "./common.js";
+import { state, checkArgvLength, found } from "./common.js";
+
+const directoryFound = async (path) => {
+	let ret = false;
+	if (await found(path)) {
+		try {
+			const stat = await fsPromises.stat(path);
+			if (stat.isDirectory()) {
+				ret = true;
+			}
+		} catch (e) {}
+	}
+	return ret;
+};
+
+const cmdCd = async (arg1) => {
+	const newPath = resolve(state.cwd, arg1);
+	if (await directoryFound(newPath)) {
+		state.setCWD(newPath);
+	}
+};
 
 const run = async (args) => {
 	switch (args[0]) {
@@ -24,6 +44,16 @@ const run = async (args) => {
 				}
 			});
 			console.table(fileExt);
+			break;
+
+		case "up":
+			checkArgvLength(args, 1);
+			await cmdCd("..");
+			break;
+
+		case "cd":
+			checkArgvLength(args, 2);
+			await cmdCd(args[1]);
 			break;
 
 		default:

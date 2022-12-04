@@ -18,7 +18,7 @@ for (let i = 0; i <= process.argv.length; i++) {
 const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
-	prompt: 'You are currently in '+state.cwd + "> ",
+	prompt: "You are currently in " + state.cwd + "> ",
 });
 
 console.log(`Welcome to the File Manager, ${state.username}!`);
@@ -32,12 +32,17 @@ rl.on("line", async (line) => {
 			case ".exit":
 				rl.close();
 				break;
+
 			case "ls":
+			case "up":
+			case "cd":
 				await nav.run(args);
 				break;
+
 			case "os":
 				await os.run(args);
 				break;
+
 			default:
 				throw Error("Invalid input");
 				break;
@@ -45,7 +50,7 @@ rl.on("line", async (line) => {
 	} catch (err) {
 		console.error(err.message);
 	}
-	rl.setPrompt('You are currently in '+state.cwd + "> ");
+	rl.setPrompt("You are currently in " + state.cwd + "> ");
 	rl.prompt();
 }).on("close", () => {
 	console.log(`Thank you for using File Manager, ${state.username}, goodbye!`);

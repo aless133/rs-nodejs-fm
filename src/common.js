@@ -16,8 +16,17 @@ export const found = async (path) => {
 };
 
 export const state = {
+    username: "",
+    setUsername(username) {
+        state.username = username;
+    },
     cwd: "",
     setCWD(path) {
         state.cwd = path;
     },
 };
+
+export const checkArgvLength = (args,len) => {
+    if (args.length !== len)
+        throw Error('Invalid input');
+}

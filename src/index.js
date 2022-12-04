@@ -4,6 +4,7 @@ import { state } from "./common.js";
 // import { stdin as input, stdout as output } from 'node:process';
 
 import os from "./os.js";
+import nav from "./nav.js";
 
 state.setCWD(node_os.homedir());
 
@@ -17,22 +18,25 @@ for (let i = 0; i <= process.argv.length; i++) {
 const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
-	prompt: state.cwd + "> ",
+	prompt: 'You are currently in '+state.cwd + "> ",
 });
 
 console.log(`Welcome to the File Manager, ${state.username}!`);
 
 rl.prompt();
 
-rl.on("line", (line) => {
+rl.on("line", async (line) => {
 	const args = lineParse(line.trim());
 	try {
 		switch (args[0]) {
 			case ".exit":
 				rl.close();
 				break;
+			case "ls":
+				await nav.run(args);
+				break;
 			case "os":
-				os.run(args);
+				await os.run(args);
 				break;
 			default:
 				throw Error("Invalid input");
@@ -41,7 +45,7 @@ rl.on("line", (line) => {
 	} catch (err) {
 		console.error(err.message);
 	}
-	rl.setPrompt(state.cwd + "> ");
+	rl.setPrompt('You are currently in '+state.cwd + "> ");
 	rl.prompt();
 }).on("close", () => {
 	console.log(`Thank you for using File Manager, ${state.username}, goodbye!`);

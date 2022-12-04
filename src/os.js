@@ -1,7 +1,7 @@
 import * as node_os from "node:os";
 import { checkArgvLength } from "./common.js";
 
-const run = (args) => {
+const run = async (args) => {
 	switch (args[1]) {
 		case "--EOL":
 			checkArgvLength(args, 2);

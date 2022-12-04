@@ -5,6 +5,7 @@ import { state } from "./common.js";
 
 import os from "./os.js";
 import nav from "./nav.js";
+import hash from "./hash.js";
 
 state.setCWD(node_os.homedir());
 
@@ -41,6 +42,10 @@ rl.on("line", async (line) => {
 
 			case "os":
 				await os.run(args);
+				break;
+
+			case "hash":
+				await hash.run(args);
 				break;
 
 			default:

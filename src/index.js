@@ -9,9 +9,10 @@ import hash from "./hash.js";
 
 state.setCWD(node_os.homedir());
 
-for (let i = 0; i <= process.argv.length; i++) {
-	if (process.argv[i] == "--username") {
-		state.setUsername(process.argv[i + 1]);
+for (let i = 0; i < process.argv.length; i++) {
+	if (process.argv[i].startsWith("--username")) {
+		const argvUser = process.argv[i].split("=");
+		state.setUsername(argvUser[1]);
 		break;
 	}
 }

@@ -1,6 +1,19 @@
-import { readdir }  from "node:fs/promises";
-import { resolve } from "path";
+import fsPromises from "node:fs/promises";
+import { normalize, resolve } from "path";
 import { checkArgvLength, throwInvalid, throwFailed } from "./common.js";
+
+// const directoryFound = async (path) => {
+// 	let ret = false;
+// 	if (await found(path)) {
+// 		try {
+// 			const stat = await fsPromises.stat(path);
+// 			if (stat.isDirectory()) {
+// 				ret = true;
+// 			}
+// 		} catch (e) {}
+// 	}
+// 	return ret;
+// };
 
 const changeDirectory = async (arg1) => {
 	const newPath = resolve(process.cwd(), arg1);
@@ -16,7 +29,7 @@ const run = async (args) => {
 		case "ls":
 			checkArgvLength(args, 1);
 			try {
-				const files = await readdir(process.cwd(), {
+				const files = await fsPromises.readdir(process.cwd(), {
 					withFileTypes: true,
 				});
 				const fileExt = files.map((file) => ({

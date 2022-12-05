@@ -1,13 +1,12 @@
 import readline from "node:readline/promises";
-import * as node_os from "node:os";
-import { state } from "./common.js";
-// import { stdin as input, stdout as output } from 'node:process';
+import { homedir } from "node:os";
+import { state, throwInvalid } from "./common.js";
+import { normalize } from "path";
 
 import os from "./os.js";
 import nav from "./nav.js";
 import hash from "./hash.js";
-
-state.setCWD(node_os.homedir());
+import files from "./files.js";
 
 for (let i = 0; i < process.argv.length; i++) {
 	if (process.argv[i].startsWith("--username")) {
@@ -17,15 +16,20 @@ for (let i = 0; i < process.argv.length; i++) {
 	}
 }
 
+process.chdir(homedir());
+
 const rl = readline.createInterface({
 	input: process.stdin,
-	output: process.stdout,
-	prompt: "You are currently in " + state.cwd + "> ",
+	output: process.stdout
 });
 
-console.log(`Welcome to the File Manager, ${state.username}!`);
+const prompt = () => {
+	rl.setPrompt(`You are currently in ${process.cwd()}> `);
+	rl.prompt();
+};
 
-rl.prompt();
+console.log(`Welcome to the File Manager, ${state.username}!`);
+prompt();
 
 rl.on("line", async (line) => {
 	const args = lineParse(line.trim());
@@ -50,14 +54,13 @@ rl.on("line", async (line) => {
 				break;
 
 			default:
-				throw Error("Invalid input");
+				throwInvalid();
 				break;
 		}
 	} catch (err) {
 		console.error(err.message);
 	}
-	rl.setPrompt("You are currently in " + state.cwd + "> ");
-	rl.prompt();
+	prompt();
 }).on("close", () => {
 	console.log(`Thank you for using File Manager, ${state.username}, goodbye!`);
 	process.exit(0);

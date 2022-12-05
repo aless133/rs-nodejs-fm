@@ -22,10 +22,6 @@ export const state = {
     setUsername(username) {
         state.username = username;
     },
-    // cwd: "",
-    // setCWD(path) {
-    //     state.cwd = path;
-    // },
 };
 
 export const throwInvalid = (err) => {

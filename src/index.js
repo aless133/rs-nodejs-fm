@@ -1,6 +1,6 @@
 import readline from "node:readline/promises";
 import { homedir } from "node:os";
-import { state, throwInvalid } from "./common.js";
+import { state, throwInvalid, dl } from "./common.js";
 import { normalize } from "path";
 
 import os from "./os.js";
@@ -32,6 +32,7 @@ console.log(`Welcome to the File Manager, ${state.username}!`);
 prompt();
 
 rl.on("line", async (line) => {
+	//process.stdout.write(line);
 	const args = lineParse(line.trim());
 	try {
 		switch (args[0]) {
@@ -44,6 +45,16 @@ rl.on("line", async (line) => {
 			case "cd":
 				await nav.run(args);
 				break;
+
+			case "cat":
+			case "add":
+			case "rn":
+			case "cp":
+			case "mv":
+			case "rm":
+				dl('files run',args);
+				await files.run(args);
+				break;				
 
 			case "os":
 				await os.run(args);

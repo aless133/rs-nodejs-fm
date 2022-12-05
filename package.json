@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
-    "start:dev": "SET NODE_DEBUG=dev&& node src/index.js -- --username=testuser"
+    "start:dev": "SET NODE_DEBUG=dev&& node src/index.js -- --username=devuser"
   },
   "repository": {
     "type": "git",

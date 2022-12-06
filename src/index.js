@@ -20,7 +20,7 @@ process.chdir(homedir());
 
 const rl = readline.createInterface({
 	input: process.stdin,
-	output: process.stdout
+	output: process.stdout,
 });
 
 const prompt = () => {
@@ -33,8 +33,9 @@ prompt();
 
 rl.on("line", async (line) => {
 	//process.stdout.write(line);
-	const args = lineParse(line.trim());
 	try {
+		const args = lineParse(line.trim());
+		// console.log(args);
 		switch (args[0]) {
 			case ".exit":
 				rl.close();
@@ -52,9 +53,9 @@ rl.on("line", async (line) => {
 			case "cp":
 			case "mv":
 			case "rm":
-				dl('files run',args);
+				dl("files run", args);
 				await files.run(args);
-				break;				
+				break;
 
 			case "os":
 				await os.run(args);
@@ -69,6 +70,7 @@ rl.on("line", async (line) => {
 				break;
 		}
 	} catch (err) {
+		dl(err);
 		console.error(err.message);
 	}
 	prompt();
@@ -91,5 +93,22 @@ rl.on("line", async (line) => {
 // rl.close();
 // const cmdRE=new RegExp('(\S+)','g');
 function lineParse(str) {
-	return str.split(" ");
+	const argv0 = str.split(" ");
+	const argv = [];
+	for (let i = 0; i < argv0.length; i++) {
+		let arg = "";
+		if (argv0[i].substring(0, 1) === '"') {
+			arg = argv0[i].substring(1);
+			while (i < argv0.length && argv0[i].slice(-1) !== '"') {
+				i++;
+				arg += " " + argv0[i];
+			}
+			if (arg.slice(-1) === '"') arg = arg.slice(0, -1);
+			else throwInvalid();
+		} else {
+			arg = argv0[i];
+		}
+		argv.push(arg);
+	}
+	return argv;
 }

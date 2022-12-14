@@ -35,6 +35,15 @@ const run = async (args) => {
 			}
 			break;
 
+		case "rn":
+			checkArgvLength(args, 3);
+			try {
+				await fsPromises.rename(args[1], args[2]);
+			} catch (err) {
+				throwFailed(err);
+			}
+			break;
+
 		default:
 			dl("files default", args);
 			throwInvalid();

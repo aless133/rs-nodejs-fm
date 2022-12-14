@@ -1,6 +1,6 @@
 import fsPromises from "node:fs/promises";
 import { checkArgvLength, throwInvalid, throwFailed, dl } from "./common.js";
-import { createReadStream } from "fs";
+import { createReadStream, createWriteStream } from "fs";
 import { pipeline } from "node:stream/promises";
 
 const run = async (args) => {
@@ -42,6 +42,17 @@ const run = async (args) => {
 			} catch (err) {
 				throwFailed(err);
 			}
+			break;
+
+		case "cp":
+			checkArgvLength(args, 3);
+			try {
+				const s1 = createReadStream(args[1]);
+				const s2 = createWriteStream(args[2]);
+				await pipeline(s1, s2);
+			} catch (err) {
+				throwFailed(err);
+			}			
 			break;
 
 		default:

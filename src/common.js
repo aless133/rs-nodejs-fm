@@ -1,21 +1,9 @@
 import { debuglog } from "util";
 export const dl = debuglog("dev");
 
-import { dirname } from "path";
+import { dirname, basename } from "path";
 import { fileURLToPath } from "url";
 export const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// import fsPromises from "node:fs/promises";
-// export const found = async (path) => {
-//     let ret;
-//     try {
-//         await fsPromises.access(path);
-//         ret = true;
-//     } catch (e) {
-//         ret = false;
-//     }
-//     return ret;
-// };
 
 export const state = {
     username: "Unknown",
@@ -36,3 +24,6 @@ export const throwFailed = (err) => {
 export const checkArgvLength = (args, len) => {
     if (args.length !== len) throwInvalid('Wrong arguments count');
 };
+
+export const isBasename = (filename) => (filename===basename(filename));
+export const isFilename = (filename) => (!!basename(filename));

@@ -7,6 +7,7 @@ import os from "./os.js";
 import nav from "./nav.js";
 import hash from "./hash.js";
 import files from "./files.js";
+import compress from "./compress.js";
 
 for (let i = 0; i < process.argv.length; i++) {
 	if (process.argv[i].startsWith("--username")) {
@@ -63,6 +64,11 @@ rl.on("line", async (line) => {
 
 			case "hash":
 				await hash.run(args);
+				break;
+
+			case "compress":
+			case "decompress":
+				await compress.run(args);
 				break;
 
 			default:

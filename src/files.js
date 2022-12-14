@@ -6,27 +6,33 @@ import { pipeline } from "node:stream/promises";
 const run = async (args) => {
 	switch (args[0]) {
 		case "cat":
-			dl("files cat", args);
 			checkArgvLength(args, 2);
 			try {
-				await (() => {
-					return new Promise((resolve, reject) => {
-						createReadStream(args[1])
-							.on("data", (data) => {
-								process.stdout.write(data);
-							})
-							.on("end", () => {
-								resolve();
-							})
-							.on("error", (err) => {
-								reject(err);
-							});
-					});
-				})();
+				await Promise((resolve, reject) => {
+					createReadStream(args[1])
+						.on("data", (data) => {
+							process.stdout.write(data);
+						})
+						.on("end", () => {
+							resolve();
+						})
+						.on("error", (err) => {
+							reject(err);
+						});
+				});
 			} catch (err) {
 				throwFailed(err);
 			}
 			dl("finish");
+			break;
+
+		case "add":
+			checkArgvLength(args, 2);
+			try {
+				await fsPromises.writeFile(args[1], "", { flag: "wx" });
+			} catch (err) {
+				throwFailed(err);
+			}
 			break;
 
 		default:

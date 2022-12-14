@@ -34,5 +34,5 @@ export const throwFailed = (err) => {
 };
 
 export const checkArgvLength = (args, len) => {
-    if (args.length !== len) throwInvalid();
+    if (args.length !== len) throwInvalid('Wrong arguments count');
 };

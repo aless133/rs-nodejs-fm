@@ -53,8 +53,8 @@ const run = async (args) => {
 			checkArgvLength(args, 3);
 			if (!isFilename(args[1])) throwInvalid("Not a filename");
 			try {
-				const s1 = createReadStream(args[1]);
-				const s2 = createWriteStream(join(args[2], basename(args[1])));
+				const s1 = createReadStream(args[1], { flags: "r+" });
+				const s2 = createWriteStream(join(args[2], basename(args[1])), { flags: "wx" });
 				await pipeline(s1, s2);
 				if (args[0] === "mv") {
 					await fsPromises.unlink(args[1]);

@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-fm",
+  "version": "1.0.0",
+  "description": "NodeJs File Manager",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "start:dev": "SET NODE_DEBUG=dev&& node src/index.js -- --username=devuser"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aless133/nodejs-fm.git"
+  },
+  "author": "https://github.com/aless133",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aless133/nodejs-fm/issues"
+  },
+  "homepage": "https://github.com/aless133/nodejs-fm#readme"
+}
